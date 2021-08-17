@@ -39,26 +39,22 @@ def create_account():
         try:
          num_value=int(result2)
          if num_value==1:
-          user_detail= UserDetails(username,password,usertype)
+          user_detail= UserDetails(username,password,usertype,'')
           insert_user_details(user_detail)
           print('successfully created')
           
          elif num_value==2:
           print('edit your details')
           create_account()
-        except:
-         print('\n\ninvalid input')        
+        except Exception as e :
+            print(e)
+            print('\n\ninvalid input')        
         
 
 
 def validate_username(name):
     if name.isalpha():
-        if len(name) > 3 and len(name) <=10:
-        #  data= if_username_exist(name)
-        #  if data:
-        #    print('username already exist')
-        #    return False
-        #  else:
+        if len(name) > 3 and len(name) <=15:
              return True
         else:
           print('username should be more than 3 and less than 10 letters') 

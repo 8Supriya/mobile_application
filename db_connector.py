@@ -1,4 +1,5 @@
 # from statement import Statement
+from userdetails import UserDetails
 import mysql.connector
 
 
@@ -20,6 +21,17 @@ Logic
 """               
 def insert_user_details(user_detail):
     insert_query="INSERT INTO `user_details`( `username`,`password`,`usertype`)VALUES('{}','{}','{}')".format(user_detail.username,user_detail.password,user_detail.usertype)
+
+    try:
+        mydb=mysql.connector.connect(host="localhost",user="root",passwd="root",database="mobileapplication") 
+        cursor= mydb.cursor()
+        cursor.execute(insert_query)  
+        mydb.commit()
+    except Exception as e:
+        print(e)
+
+def insert_item_details(item_detail):
+    insert_query="INSERT INTO `item_details`( `product_name`,`price`,`qty`,`user_id`)VALUES('{}',{},{},{})".format(item_detail.product_name,item_detail.price,item_detail.qty,item_detail.user_id)
 
     try:
         mydb=mysql.connector.connect(host="localhost",user="root",passwd="root",database="mobileapplication") 
@@ -52,17 +64,17 @@ Logic
 
 
 def get_user_details(username,password):
-    select_query="select user_id from user_details where username='{}' and password='{}'".format(username,password)
+    select_query="select * from user_details where username='{}' and password='{}'".format(username,password)
 
     try:
         mydb=mysql.connector.connect(host="localhost",user="root",passwd="root",database="mobileapplication") 
         cursor= mydb.cursor()
         cursor.execute(select_query)
-        user_id=cursor.fetchone()
-        if user_id: 
-            st = ''.join(map(str, user_id))
+        db_user_details=cursor.fetchone()
+        if db_user_details: 
+            user_detail= UserDetails(username,password,db_user_details[3],db_user_details[0])
             print('login successfully!!')
-            return st
+            return user_detail
         else:
             print('invalid username and password')
             return ''    

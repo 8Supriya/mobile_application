@@ -1,3 +1,4 @@
+from login import login_func
 from create_account import create_account
 
 
@@ -8,7 +9,7 @@ while int_value!=1 and int_value!=2 and int_value!=3:
     try:
         int_value=int(result)
         if int_value==1:
-          print(int_value)
+          login_func()
           int_value=''
         elif int_value==2:
           create_account()
